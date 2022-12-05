@@ -26,7 +26,7 @@ def validateBlocks(blocks):
     #Then validate no overlap
     for b in blocks:
         for bb in blocks:
-            if(b.xs == bb.xs and b.ys == bb.ys and b.zs == bb.zs):
+            if(b.xs == bb.xs and b.ys == bb.ys and b.zs == bb.zs and b.id != b.id):
                 print("Grid Error: Block [", b.id, "] has the same coordinates as Block [",bb.id,"]")
 
 def arrayOfBlocks(blocks):

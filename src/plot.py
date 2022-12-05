@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import edgeGraph as eg
-from block import Block
+import block
+import algo
 #Params
 gridSize = 10
 
@@ -148,16 +149,18 @@ def main():
     plt.interactive(False)
 
     #SampleData
-    b1 = Block("one",5,1,5)
-    b2 = Block("two",5,2,5)
-    b3 = Block("three",5,3,5)
-    b4 = Block("four",5,4,5)
-    b5 = Block("five",4,1,5)
+    b1 = block.Block("one",5,1,5)
+    b2 = block.Block("two",5,2,5)
+    b3 = block.Block("three",5,3,5)
+    b4 = block.Block("four",5,4,5)
+    b5 = block.Block("five",4,1,5)
     blocks = [b1,b2,b3,b4,b5]
 
     #Run Validations
-    b1.validateBlocks(blocks)
+    block.validateBlocks(blocks)
     g = eg.buildStruct(blocks) 
+
+    algo.solveMaze(block.arrayForMaze(blocks))
 
     # Plot figure
     fig = plt.figure()
