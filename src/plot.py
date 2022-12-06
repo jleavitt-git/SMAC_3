@@ -21,19 +21,19 @@ def basicMaze():
     b9 = block.Block("nine",3,0,3)
     b10 = block.Block("ten",3,0,4)
     b11 = block.Block("eleven",4,0,4)
-    # b12 = block.Block("twelve",2,0,1)
     # b13 = block.Block("thirteen",2,1,1)
     # b14 = block.Block("fourteen",2,1,2)
     # b15 = block.Block("fifteen",2,1,3)
     # b16 = block.Block("sixteen",3,1,2)
-    return [b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11]
+    return [b9,b2,b3,b4,b5,b6,b7,b8,b11,b10,b1]
 
 #Returns all blocks with y=0
-def getStartingBlocks(blcoks):
-    starters = 0
+def getStartingBlocks(blocks):
+    starters = []
     for b in blocks:
         if b.ys == 0:
-            print("good")
+            starters.append(b)
+    return starters
 
 def main():
     plt.interactive(False)
@@ -53,10 +53,11 @@ def main():
     g = eg.buildStruct(blocks)
 
     blocks = basicMaze()
-    # for i in getStartingBlocks(blocks):
-    #     if algo.solveMaze(block.arrayForMaze(blocks), gridSize, len(blocks)):
-    #         break
-    algo.solveMaze(block.arrayForMaze(blocks), gridSize, len(blocks))
+    for b in getStartingBlocks(blocks):
+        print("Trying block:", b.id)
+        if algo.solveMaze(block.arrayForMaze(blocks), gridSize, len(blocks), b.xs, b.ys, b.zs):
+            break
+    # algo.solveMaze(block.arrayForMaze(blocks), gridSize, len(blocks))
 
     # Plot figure
     fig = plt.figure()

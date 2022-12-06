@@ -44,11 +44,11 @@ def DoMaze(n, maze, move_x, move_y, move_z, x, y, z, res, blocksTraversed, block
     return False
 
 #Attemps to solve maze, coordinates are starting blocks
-def solveMaze(maze, gridSize, blockCount):
+def solveMaze(maze, gridSize, blockCount, x, y, z):
     n = gridSize
         # Creating a 4 * 4 2-D list
     res = [[[0 for i in range(n)] for i in range(n)] for i in range(n)]
-    res[0][0][0] = 1
+    res[x][y][z] = 1
 
     # x matrix for each direction
     move_x = [-1, 1, 0, 0, 0, 0]
@@ -59,7 +59,7 @@ def solveMaze(maze, gridSize, blockCount):
     # y matrix for each direction
     move_z = [0, 0, 0, 0, -1, 1]
     
-    if DoMaze(n, maze, move_x, move_y, move_z, 0, 0, 0, res, 0, blockCount):
+    if DoMaze(n, maze, move_x, move_y, move_z, x, y, z, res, 0, blockCount):
         for i in range(n):
             for j in range(n):
                 print("[", end='')
@@ -90,6 +90,6 @@ if __name__ == "__main__":
 
     print(maze[1][0][0])
     print(maze[0][1][1])
-    solveMaze(maze, 4)
+    solveMaze(maze, 4, 9, 0, 0, 0)
 
 # This code is contributed by Anvesh Govind Saxena
