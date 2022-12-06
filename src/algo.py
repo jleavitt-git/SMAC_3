@@ -2,7 +2,7 @@
 # problem using backtracking
 
 # Maze size
-n = 4
+n = 5
 
 # A utility function to check if x, y is valid
 # index for N * N Maze
@@ -16,10 +16,11 @@ def isValid(n, maze, x, y, z, res):
 # A recursive utility function to solve Maze problem
 
 
-def DoMaze(n, maze, move_x, move_y, move_z, x, y, z, res):
+def DoMaze(n, maze, move_x, move_y, move_z, x, y, z, res, blocksTraversed, blockCount):
 
     # if (x, y, z is goal) return True
-    if x == n-1 and y == n-1 and z == 0:
+    # if x == n-1 and y == 0 and z == n-1:
+    if blocksTraversed == blockCount-1:
         return True
     for i in range(6):
         # Generate new value of x
@@ -35,13 +36,15 @@ def DoMaze(n, maze, move_x, move_y, move_z, x, y, z, res):
         if isValid(n, maze, x_new, y_new, z_new, res):
             # mark x, y as part of solution path
             res[x_new][y_new][z_new] = 1
-            if DoMaze(n, maze, move_x, move_y, move_z, x_new, y_new, z_new, res):
+            blocksTraversed+=1
+            # print("Coords: [", z_new, ",", y_new, ",", z_new, "]")
+            if DoMaze(n, maze, move_x, move_y, move_z, x_new, y_new, z_new, res, blocksTraversed, blockCount):
                 return True
             res[x_new][y_new][z_new] = 0
     return False
 
-
-def solveMaze(maze, gridSize):
+#Attemps to solve maze, coordinates are starting blocks
+def solveMaze(maze, gridSize, blockCount):
     n = gridSize
         # Creating a 4 * 4 2-D list
     res = [[[0 for i in range(n)] for i in range(n)] for i in range(n)]
@@ -56,7 +59,7 @@ def solveMaze(maze, gridSize):
     # y matrix for each direction
     move_z = [0, 0, 0, 0, -1, 1]
     
-    if DoMaze(n, maze, move_x, move_y, move_z, 0, 0, 0, res):
+    if DoMaze(n, maze, move_x, move_y, move_z, 0, 0, 0, res, 0, blockCount):
         for i in range(n):
             for j in range(n):
                 print("[", end='')
@@ -64,8 +67,11 @@ def solveMaze(maze, gridSize):
                     print(res[i][j][k], end=', ')
                 print("], ", end='')
             print()
+        return True
     else:
-        print('Solution does not exist')
+        # print('Solution does not exist')
+        return False
+        
 
 
 # Driver program to test above function

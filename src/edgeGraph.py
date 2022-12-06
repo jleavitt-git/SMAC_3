@@ -27,6 +27,8 @@ def axisDataNA(blocks, axis):
         for b in blocks:
             arr.append(b.zs)
     return arr
+
+    
 def buildStruct(blocks):
     #DFS on adjacency graph
     if blocks is not []:

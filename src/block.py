@@ -1,6 +1,6 @@
 import numpy as np
 
-gridSize = 10
+gridSize = 5
 
 class Block:
     def __init__(self, id, xs, ys, zs):
