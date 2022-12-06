@@ -2,7 +2,7 @@
 # problem using backtracking
 
 # Maze size
-n = 5
+n = 10
 
 # A utility function to check if x, y is valid
 # index for N * N Maze

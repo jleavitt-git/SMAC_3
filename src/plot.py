@@ -6,7 +6,7 @@ import edgeGraph as eg
 import block
 import algo
 #Params
-gridSize = 5
+gridSize = 10
 
 
 def basicMaze():
@@ -27,6 +27,25 @@ def basicMaze():
     # b16 = block.Block("sixteen",3,1,2)
     return [b9,b2,b3,b4,b5,b6,b7,b8,b11,b10,b1]
 
+def blocksFromFile():
+    newBlocks = []
+    f = open('struct.txt', 'r')
+    content = f.readlines()
+    odd = True
+    for c in content:
+        # print(c.split('\''))
+        cout = c.split('\'')
+        numCout = cout[2].split(",")
+        # print(block.Block(cout[1], numCout[1], numCout[2], numCout[3]).toString())
+        b = block.Block(cout[1], int(numCout[1]), int(numCout[2]), int(numCout[3].split(')')[0]))
+        if b is not None:
+            #print(numCout[3].split(')')[0])
+            #print(block.Block(cout[1], int(numCout[1]), int(numCout[2]), int(numCout[3].split(')')[0])).toString(), "Hit")
+            newBlocks.append(block.Block(cout[1], int(numCout[1]), int(numCout[2]), int(numCout[3].split(')')[0])))
+        #printBlocks(newBlocks)
+    return newBlocks
+        
+
 #Returns all blocks with y=0
 def getStartingBlocks(blocks):
     starters = []
@@ -37,7 +56,6 @@ def getStartingBlocks(blocks):
 
 def main():
     plt.interactive(False)
-
     #SampleData
     # b1 = block.Block("one",5,1,5)
     # b2 = block.Block("two",5,2,5)
@@ -46,17 +64,20 @@ def main():
     # b5 = block.Block("five",4,1,5)
     # blocks = [b1,b2,b3,b4,b5]
 
-    blocks = basicMaze()
+    #blocks = basicMaze()
+    blocks = blocksFromFile()
 
     #Run Validations
-    block.validateBlocks(blocks)
+    block.validateBlocks(blocks, gridSize)
     g = eg.buildStruct(blocks)
 
-    blocks = basicMaze()
+    #blocks = basicMaze()
     for b in getStartingBlocks(blocks):
         print("Trying block:", b.id)
-        if algo.solveMaze(block.arrayForMaze(blocks), gridSize, len(blocks), b.xs, b.ys, b.zs):
+        if algo.solveMaze(block.arrayForMaze(blocks, gridSize), gridSize, len(blocks), b.xs, b.ys, b.zs):
             break
+        else:
+            print("Solution not found...")
     # algo.solveMaze(block.arrayForMaze(blocks), gridSize, len(blocks))
 
     # Plot figure
@@ -86,6 +107,10 @@ def main():
 
     ax.view_init(100, 0)
     plt.show()
+
+def printBlocks(blocks):
+    for b in blocks:
+        print("ID: ", b.id, " X: ", b.xs, " Y: ", b.ys, " Z: ", b.zs)
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,6 @@
 import numpy as np
 
-gridSize = 5
+gridSize = 10
 
 class Block:
     def __init__(self, id, xs, ys, zs):
@@ -13,7 +13,8 @@ class Block:
     def asArray(self):
         return [self.xs,self.ys,self.zs]
     
-def validateBlocks(blocks):
+def validateBlocks(blocks, n):
+    gridSize = n
     #First validate each block coordinates individually
     for b in blocks:
         if(b.xs > gridSize or b.xs < 0):
@@ -36,7 +37,8 @@ def arrayOfBlocks(blocks):
         arr[i] = [b.xs,b.ys,b.zs]
     return arr
 
-def arrayForMaze(blocks):
+def arrayForMaze(blocks, n):
+    gridSize = n
     arr = [[[0 for i in range(gridSize)] for i in range(gridSize)] for i in range(gridSize)]
     for b in blocks:
         arr[b.xs][b.ys][b.zs] = 1
@@ -44,7 +46,7 @@ def arrayForMaze(blocks):
 
     b1 = Block("one",1,1,1)
     b2 = Block("two",2,2,2)
-    arr = arrayForMaze([b1,b2])
+    arr = arrayForMaze([b1,b2], gridSize)
     for i in range(gridSize):
                 for j in range(gridSize):
                     print("[", end='')
