@@ -41,8 +41,8 @@ def DoMaze(n, maze, move_x, move_y, move_z, x, y, z, res):
     return False
 
 
-def solveMaze(maze):
-
+def solveMaze(maze, gridSize):
+    n = gridSize
         # Creating a 4 * 4 2-D list
     res = [[[0 for i in range(n)] for i in range(n)] for i in range(n)]
     res[0][0][0] = 1
@@ -71,13 +71,19 @@ def solveMaze(maze):
 # Driver program to test above function
 if __name__ == "__main__":
     # Initialising the maze
-    maze = [[[1, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-        [[1, 0, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [1, 0, 0, 0]],
-        [[0, 0, 0, 0], [1, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-        [[1, 0, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]]]
+    # maze = [[[1, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
+    #     [[1, 0, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [1, 0, 0, 0]],
+    #     [[0, 0, 0, 0], [1, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
+    #     [[1, 0, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]]]
+    maze = [[[1, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 0, 0, 0]],
+        [[0, 0, 0, 0], [0, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 0]],
+        [[0, 0, 0, 0], [0, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 0]],
+        [[0, 0, 0, 0], [0, 0, 0, 0], [0, 1, 0, 0], [1, 1, 0, 0]]]
     print(maze[0][0][1])
+
+
     print(maze[1][0][0])
-    print(maze[0][1][0])
-    solveMaze(maze)
+    print(maze[0][1][1])
+    solveMaze(maze, 4)
 
 # This code is contributed by Anvesh Govind Saxena
