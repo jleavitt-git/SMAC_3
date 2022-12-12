@@ -3,11 +3,14 @@ import numpy as np
 gridSize = 10
 
 class Block:
-    def __init__(self, id, xs, ys, zs):
+    def __init__(self, id, xs, ys, zs, critical = None, depth = 0, strong = False):
         self.id = id
         self.xs = xs
         self.ys = ys
         self.zs = zs
+        self.critical = critical
+        self.depth = depth
+        self.strong = strong
     def toString(self):
         print("ID: ", self.id, " X: ", self.xs, " Y: ", self.ys, " Z: ", self.zs)
     def asArray(self):
@@ -54,3 +57,11 @@ def arrayForMaze(blocks, n):
                         print(arr[i][j][k], end=', ')
                     print("], ", end='')
                 print()
+
+
+def printListOfBlocks(blocks):
+    for b in blocks:
+        crit = "None"
+        if b.critical is not None:
+            crit = b.critical.id
+        print("ID: ", b.id, "XYS: [", b.xs, ",", b.ys, ",",b.zs, "] Crit: ", crit, " Depth: ", b.depth)

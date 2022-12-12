@@ -36,11 +36,9 @@ def blocksFromFile():
         # print(c.split('\''))
         cout = c.split('\'')
         numCout = cout[2].split(",")
-        # print(block.Block(cout[1], numCout[1], numCout[2], numCout[3]).toString())
+        # Pull info from file
         b = block.Block(cout[1], int(numCout[1]), int(numCout[2]), int(numCout[3].split(')')[0]))
         if b is not None:
-            #print(numCout[3].split(')')[0])
-            #print(block.Block(cout[1], int(numCout[1]), int(numCout[2]), int(numCout[3].split(')')[0])).toString(), "Hit")
             newBlocks.append(block.Block(cout[1], int(numCout[1]), int(numCout[2]), int(numCout[3].split(')')[0])))
         #printBlocks(newBlocks)
     return newBlocks
@@ -69,7 +67,7 @@ def main():
 
     #Run Validations
     block.validateBlocks(blocks, gridSize)
-    g = eg.buildStruct(blocks)
+    #g = eg.buildStruct(blocks)
 
     #blocks = basicMaze()
     for b in getStartingBlocks(blocks):
@@ -79,6 +77,12 @@ def main():
         else:
             print("Solution not found...")
     # algo.solveMaze(block.arrayForMaze(blocks), gridSize, len(blocks))
+
+    g = eg.buildGraph(blocks)
+    peaks = eg.getPeaks(blocks)
+    for p in peaks:
+        eg.buildCriticals(g, p, [])
+    block.printListOfBlocks(blocks)
 
     # Plot figure
     fig = plt.figure()

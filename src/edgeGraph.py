@@ -1,4 +1,4 @@
-from block import Block
+import block
 import numpy as np
 from graph import Graph
 
@@ -80,6 +80,7 @@ def buildDic(blocks):
         bDict.update({(b.xs,b.ys,b.zs):b})
     return bDict
 
+# d: Dictionary, b: block
 def getNeighbors(d, b):
     neighbors = []
     #Check 6 directions
@@ -104,8 +105,78 @@ def getNeighbors(d, b):
     
     return neighbors
 
+#Returns all blocks at highest level
+def getPeaks(blocks):
+    peaks = []
+    maxHeight = 0
+    for b in blocks:
+        if b.ys > maxHeight:
+            maxHeight = b.ys
+    for b in blocks:
+        if b.ys == maxHeight:
+            peaks.append(b)
+    return peaks
+
+
+#DFS adds critical nodes to each block
+def buildCriticals(g, b, visited):
+    visited.append(b)
+    neighbors = g.edges(b)
+    for n in neighbors:
+        if n.critical is None and n.ys != 0 and not visited.__contains__(n):
+            buildCriticals(g, n, visited)
+    findCritical(g, b)
+        
+def findCritical(g, b):
+    neighbors = g.edges(b)
+    #on the floor
+    if b.ys == 0:
+        return b
+    #n is below b
+    for n in neighbors:
+        if n.ys < b.ys:
+            b.critical = n
+            b.depth = n.depth+1
+            return b
+    #n is next to b, find one with shorted depth
+    possibleCrits = []
+    for n in neighbors:
+        if n.ys == b.ys:
+            possibleCrits.append(n)
+    smallestDepth = 100000000 #outside possible depth
+    for p in possibleCrits:
+        if p.depth < smallestDepth:
+            smallestDepth = p.depth
+    if smallestDepth != 100000000:
+        for n in neighbors:
+            if smallestDepth == n.depth:
+                b.critical = n
+                b.depth = n.depth+1
+                return b
+    #n is above b and b is floating
+    else:
+        for n in neighbors:
+            if n.ys == b.ys+1:
+                b.critical = n
+                b.depth = n.depth+1
+    return b
+
+
+            
+
+
 def main():
+    #SampleData
+    b1 = block.Block("one",5,0,5)
+    b2 = block.Block("two",5,1,5)
+    b3 = block.Block("three",5,2,5)
+    b4 = block.Block("four",5,3,5)
+    b5 = block.Block("five",4,0,5)
+    blocks = [b1,b2,b3,b4,b5]
     print(1)
+    g = buildGraph(blocks)
+    buildCriticals(g, blocks[3], [])
+    block.printListOfBlocks(blocks)
 
 if __name__ == "__main__":
     main()

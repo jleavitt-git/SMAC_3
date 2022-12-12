@@ -43,7 +43,7 @@ class Voxel(Button):
             if key == 'left mouse down':
                 voxel = PlayerVoxel(position=self.position + mouse.normal)
                 vector = self.position + mouse.normal
-                blocks.append(Block(str(random.randrange(1000,9999)), vector.x, vector.y, vector.z))
+                blocks.append(Block(str(random.randrange(0,10000)), vector.x, vector.y, vector.z))
 
 class backgroundVoxel(Button):
     def __init__(self, position=(0,0,0)):
@@ -73,7 +73,7 @@ class PlayerVoxel(Button):
             if key == 'left mouse down':
                 vector = self.position + mouse.normal
                 voxel = PlayerVoxel(position=vector)
-                blocks.append(Block(str(random.randrange(1000,9999)), vector.x, vector.y, vector.z))
+                blocks.append(Block(str(random.randrange(0,10000)), vector.x, vector.y, vector.z))
 
             if key == 'right mouse down':
                 vector = self.position

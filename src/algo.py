@@ -91,5 +91,3 @@ if __name__ == "__main__":
     print(maze[1][0][0])
     print(maze[0][1][1])
     solveMaze(maze, 4, 9, 0, 0, 0)
-
-# This code is contributed by Anvesh Govind Saxena
