@@ -125,45 +125,59 @@ def buildCriticals(g, b, visited):
     for n in neighbors:
         if n.critical is None and n.ys != 0 and not visited.__contains__(n):
             buildCriticals(g, n, visited)
-    findCritical(g, b)
-        
-def findCritical(g, b):
+    finedCritical(g, b)
+
+def finedCritical(g, b):
     neighbors = g.edges(b)
-    #on the floor
+
+    #Block is on the floor
     if b.ys == 0:
         return b
-    #n is below b
+    
+    #Block is sitting on a pillar
     for n in neighbors:
-        if n.ys < b.ys:
+        if n.ys == b.ys-1 and isPillar(g, n):
             b.critical = n
-            b.depth = n.depth+1
             return b
-    #n is next to b, find one with shorted depth
-    possibleCrits = []
+        
+    #Block has adjacent stable blocks
     for n in neighbors:
-        if n.ys == b.ys:
-            possibleCrits.append(n)
-    smallestDepth = 100000000 #outside possible depth
-    for p in possibleCrits:
-        if p.depth < smallestDepth:
-            smallestDepth = p.depth
-    if smallestDepth != 100000000:
-        for n in neighbors:
-            if smallestDepth == n.depth:
-                b.critical = n
-                b.depth = n.depth+1
-                return b
-    #n is above b and b is floating
-    else:
-        for n in neighbors:
-            if n.ys == b.ys+1:
-                b.critical = n
-                b.depth = n.depth+1
+        if n.ys == b.ys and n.critical is not b:
+            b.critical = n
+            return b
+    
+    #Block is hanging
+    for n in neighbors:
+        if n.ys == b.ys+1:
+            b.critical = n
     return b
 
 
-            
+def isPillar(g, b):
+    #Block is on the floor
+    if b.ys == 0:
+        return True
+    neighbors = g.edges(b)
 
+    #If there is a block below, recurse downwards on y axis
+    for n in neighbors:
+        if n.ys == b.ys-1:
+            return isPillar(g, n)
+
+    #Never hit floor, is not a pillar
+    return False
+
+def buildDepths(blocks):
+    for b in blocks:
+        setDepth(b)
+
+def setDepth(b):
+    #IF THIS ERRORS A BLOCK THATS NOT A BASE DOES NOT HAVE A CRITICAL BLOCK
+    if b.ys == 0:
+        return 0
+    
+    b.depth = setDepth(b.critical)+1
+    return b.depth
 
 def main():
     #SampleData

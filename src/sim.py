@@ -91,11 +91,13 @@ for z in range(10):
 
 def input(key):
     if key == 'escape':
+        blockID = 0
         with open('struct.txt', 'w') as f:
             for b in blocks:
-                st = b.id, int(b.xs), int(b.ys), int(b.zs)
+                st = str(blockID), int(b.xs), int(b.ys), int(b.zs)
                 f.write(str(st))
                 f.write('\n')
+                blockID +=1
         quit()
 
 # def input(key):

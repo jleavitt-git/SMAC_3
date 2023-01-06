@@ -52,6 +52,21 @@ def getStartingBlocks(blocks):
             starters.append(b)
     return starters
 
+def getGridBounds(blocks):
+    xMax = 0
+    yMax = 0
+    zMax = 0
+    for b in blocks:
+        x, y, z = b.xs, b.ys, b.zs
+        if x > xMax:
+            xMax = x
+        if y > yMax:
+            yMax = y
+        if z > zMax:
+            zMax = z
+    #Add 1 to each for spacing
+    return xMax+1, yMax+1, zMax+1
+
 def main():
     plt.interactive(False)
     #SampleData
@@ -79,9 +94,17 @@ def main():
     # algo.solveMaze(block.arrayForMaze(blocks), gridSize, len(blocks))
 
     g = eg.buildGraph(blocks)
+
+    #Validate no floating blocks
+    for b in blocks:
+        neighbors = g.edges(b)
+        if len(neighbors) == 0 and b.ys != 0:
+            print("Structure Error: ", b.id, " is floating")
+
     peaks = eg.getPeaks(blocks)
     for p in peaks:
         eg.buildCriticals(g, p, [])
+    eg.buildDepths(blocks)
     block.printListOfBlocks(blocks)
 
     # Plot figure
@@ -94,9 +117,10 @@ def main():
     for b in blocks:
         ax.text(b.xs,b.ys,b.zs,b.id, fontsize=6)
     #Set grid size
-    ax.set_xlim(-1,gridSize)
-    ax.set_ylim(-1,gridSize)
-    ax.set_zlim(-1,gridSize)
+    gx, gy, gz = getGridBounds(blocks)
+    ax.set_xlim(-1,gx)
+    ax.set_ylim(-1,gy)
+    ax.set_zlim(-1,gz)
 
     #Add axis labels
     ax.set_xlabel("X")
