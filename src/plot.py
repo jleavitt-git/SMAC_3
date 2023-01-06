@@ -82,16 +82,14 @@ def main():
 
     #Run Validations
     block.validateBlocks(blocks, gridSize)
-    #g = eg.buildStruct(blocks)
-
-    #blocks = basicMaze()
-    for b in getStartingBlocks(blocks):
-        print("Trying block:", b.id)
-        if algo.solveMaze(block.arrayForMaze(blocks, gridSize), gridSize, len(blocks), b.xs, b.ys, b.zs):
-            break
-        else:
-            print("Solution not found...")
-    # algo.solveMaze(block.arrayForMaze(blocks), gridSize, len(blocks))
+ 
+    #NOTE: Removing maze for now, not really needed
+    # for b in getStartingBlocks(blocks):
+    #     print("Trying block:", b.id)
+    #     if algo.solveMaze(block.arrayForMaze(blocks, gridSize), gridSize, len(blocks), b.xs, b.ys, b.zs):
+    #         break
+    #     else:
+    #         print("Solution not found...")
 
     g = eg.buildGraph(blocks)
 
