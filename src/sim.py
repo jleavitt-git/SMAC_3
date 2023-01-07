@@ -11,6 +11,7 @@ around the player so you can interact with the world.
 from ursina import *
 from ursina.prefabs.first_person_controller import FirstPersonController
 from block import Block
+import filesupport as fs
 
 app = Ursina()
 
@@ -91,13 +92,7 @@ for z in range(10):
 
 def input(key):
     if key == 'escape':
-        blockID = 0
-        with open('struct.txt', 'w') as f:
-            for b in blocks:
-                st = str(blockID), int(b.xs), int(b.ys), int(b.zs)
-                f.write(str(st))
-                f.write('\n')
-                blockID +=1
+        fs.printToFile(blocks, 'struct.txt')
         quit()
 
 # def input(key):
