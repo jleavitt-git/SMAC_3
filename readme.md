@@ -8,12 +8,16 @@
         Dependency graph (Done!)
         Build order (Done!)
         Ensure structure can be built (no overhangs over 2 blocks)
+            Stability dictionary / param of block (0.0-1.0, critical at .5?)
     ORIENTATION
-        ahhhhh
+        add to blocks a type enum (Straight joint, angle joint, scaffolding)
+        add an orientation attribute (Two letters for direction of joints ex. XX, XY, ZZ, etc.)
+        automatically assign it
     SCAFFOLDING
-        ahhhhhh
+        TBD
 
-
+    Refactoring and organize
+        TBD
 
 #USAGE:
-run main.py
+run main.py, press ESC to exit simulation
