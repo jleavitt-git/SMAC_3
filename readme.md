@@ -1,4 +1,5 @@
 #TODO 
+    BOILER PLATE
     Tansform block coords to maze coords (Done!)
     Specify start and end point for algo (Done!)
     Link sim and algo (file) (Done!)
