@@ -1,16 +1,34 @@
 import numpy as np
+from enum import Enum
 
 gridSize = 10
 
+class type(Enum):
+    NONE     = -1
+    SCAFFOLD = 0
+    STRAIGHT = 1
+    ANGLE    = 2
+
+class orientation(Enum):
+    NONE = -1
+    XX   = 1
+    XY   = 2
+    XZ   = 3
+    YY   = 4
+    YZ   = 5
+    ZZ   = 6
+
 class Block:
-    def __init__(self, id, xs, ys, zs, critical = None, depth = 0, strong = False):
+    def __init__(self, id, xs, ys, zs, critical = None, depth = 0, type=type.NONE, orientation=orientation.NONE):
         self.id = id
         self.xs = xs
         self.ys = ys
         self.zs = zs
         self.critical = critical
         self.depth = depth
-        self.strong = strong
+        self.type = type
+        self.orientation = orientation
+        
     def toString(self):
         print("ID: ", self.id, " X: ", self.xs, " Y: ", self.ys, " Z: ", self.zs)
     def asArray(self):
