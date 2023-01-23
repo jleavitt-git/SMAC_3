@@ -6,14 +6,16 @@ import edgeGraph as eg
 import block
 import filesupport as fs
 import plot
-
+import orientationBuilder as ob
 
 #Params
 gridSize = 10
 
 def main():
-    #Run the sym to get structure
-    os.system('python3 sim.py')
+    #Run the sym to get structure if wanted
+    doSim = input("Run simulation for new structure? [y/n]:")
+    if doSim == "y" or doSim == "Y":
+        os.system('python3 sim.py')
 
     #import blocks from structure
     blocks = fs.readFromFile('struct.txt')
@@ -34,7 +36,12 @@ def main():
     for p in peaks:
         eg.buildCriticals(g, p, [])
     eg.buildDepths(blocks)
-    block.printListOfBlocks(blocks)
+   
+   
+    #block.printListOfBlocks(blocks)
+    ob.buildOrientation(blocks)
+
+
 
     # Plot figure
     plt.interactive(False)
