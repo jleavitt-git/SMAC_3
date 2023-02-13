@@ -39,9 +39,9 @@ def main():
    
    
     #block.printListOfBlocks(blocks)
-    ob.buildOrientation(blocks)
+    blocks = ob.buildOrientation(blocks)
 
-
+    block.printListOfBlocks(blocks)
 
     # Plot figure
     plt.interactive(False)
