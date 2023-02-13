@@ -1,6 +1,14 @@
 import numpy as np
 import block
 
+'''
+
+DEPRECATED IN FAVOR OF edgeGraph.py
+
+
+'''
+
+
 #DFS adds critical nodes to each block
 def buildCriticals(g, b, visited):
     visited.append(b)

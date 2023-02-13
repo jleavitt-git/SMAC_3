@@ -33,3 +33,17 @@ def shortest_path(g, node1):
         path_index += 1
     # No path is found
     return []
+
+def betterDepthBuilder(g, blocks):
+    for b in blocks:
+        if b.depth == 0 and b.ys != 0:
+            path = shortest_path(g, b)
+            path.reverse()
+            for x in range(len(path)):
+
+                if path[x].depth is 0 and path[x].ys != 0:
+                    path[x].depth = x
+                    #blocks.get(path[x]).depth = x
+                    if x > 0 and path[x].critical is None:
+                        path[x].critical = path[x-1]
+    return blocks
