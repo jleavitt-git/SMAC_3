@@ -65,8 +65,9 @@ class PlayerVoxel(Button):
             position = position,
             model = 'cube',
             origin_y = .5,
-            texture = 'white_cube',
-            color = color.color(0, 100, random.uniform(.9, 1.0)),
+            color = color.white,
+            #Kid you not the b in blockface threw an error, therefor lockface
+            texture = load_texture('assets\lockface'),
             highlight_color = color.rgb(242, 59, 144),
         )
     def input(self, key):

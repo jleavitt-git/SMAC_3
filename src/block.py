@@ -93,7 +93,7 @@ def printListOfBlocks(blocks):
         crit = "None"
         if b.critical is not None:
             crit = b.critical.id
-        print("ID: ", b.id, "XYS: [", b.xs, ",", b.ys, ",",b.zs, "] Crit: ", crit, " Depth: ", b.depth)
+        print("ID: ", b.id, "XYS: [", b.xs, ",", b.ys, ",",b.zs, "] Crit:", crit, " Depth:", b.depth, "Orientation:", b.orientation)
 
 
 def getBlockFromCoords(blocks, x, y, z):
