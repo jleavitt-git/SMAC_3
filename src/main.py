@@ -7,9 +7,22 @@ import block
 import filesupport as fs
 import plot
 import orientationBuilder as ob
+import algo
+import orientationDFS as dfs
+import buildRelationalGraph as gv
+import completeDFS as cdfs
 
 #Params
 gridSize = 10
+
+#Returns all blocks with y=0
+def getStartingBlocks(blocks):
+    starters = []
+    for b in blocks:
+        if b.ys == 0:
+            starters.append(b)
+    return starters
+
 
 def main():
     #Run the sym to get structure if wanted
@@ -37,10 +50,35 @@ def main():
         eg.buildCriticals(g, p, [])
     eg.buildDepths(blocks)
    
-   
-    #block.printListOfBlocks(blocks)
-    ob.buildOrientation(blocks)
 
+    # orderedBlocks = None
+    # for b in getStartingBlocks(blocks):
+    #     print("Trying block:", b.id)
+    #     orderedBlocks = dfs.doDFS(g, b, len(blocks))
+    #     if orderedBlocks is not None:
+    #         break
+    #     else:
+    #         print("Solution not found...")
+    # # orderedBlocks = None
+    # # for b in getStartingBlocks(blocks):
+    # #     print("Trying block:", b.id)
+    # #     orderedBlocks = algo.solveMaze(block.arrayForMaze(blocks, gridSize), gridSize, len(blocks), b.xs, b.ys, b.zs, blocks)
+    # #     if orderedBlocks is not None:
+    # #         break
+    # #     else:
+    # #         print("Solution not found...")
+   
+
+    # ob.buildOrientation(blocks, g)
+
+    #blocks = cdfs.initFancyDFS(blocks, g)
+
+    blocks = sorted(blocks, key=lambda b: b.depth if b.depth is not None else 0, reverse=False)
+
+    block.printListOfBlocks(blocks)
+
+
+    gv.buildGraph(blocks)
 
 
     # Plot figure
@@ -56,7 +94,7 @@ def main():
     #Set grid size
     gx, gy, gz = plot.getGridBounds(blocks)
     ax.set_xlim(-1,gx)
-    ax.set_ylim(-1,gy)
+    ax.set_ylim(0,gy)
     ax.set_zlim(-1,gz)
 
     #Add axis labels
@@ -68,7 +106,6 @@ def main():
 
     ax.view_init(100, 0)
     plt.show()
-
 
 if __name__ == "__main__":
     main()

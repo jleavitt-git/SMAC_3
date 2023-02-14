@@ -125,9 +125,9 @@ def buildCriticals(g, b, visited):
     for n in neighbors:
         if n.critical is None and n.ys != 0 and not visited.__contains__(n):
             buildCriticals(g, n, visited)
-    finedCritical(g, b)
+    findCritical(g, b)
 
-def finedCritical(g, b):
+def findCritical(g, b):
     neighbors = g.edges(b)
 
     #Block is on the floor
@@ -140,6 +140,11 @@ def finedCritical(g, b):
             b.critical = n
             return b
         
+    #Is above a block that's not a pillar but stable
+    for n in neighbors:
+        if n.ys == b.ys-1 and n.critical is not None:
+            b.critical = n
+            return b
     #Block has adjacent stable blocks
     for n in neighbors:
         if n.ys == b.ys and n.critical is not b:
@@ -150,7 +155,10 @@ def finedCritical(g, b):
     for n in neighbors:
         if n.ys == b.ys+1:
             b.critical = n
-    return b
+        return b
+
+    print("No solution found, err4")
+    exit(4)
 
 
 def isPillar(g, b):
@@ -173,10 +181,15 @@ def buildDepths(blocks):
 
 def setDepth(b):
     #IF THIS ERRORS A BLOCK THATS NOT A BASE DOES NOT HAVE A CRITICAL BLOCK
-    if b.ys == 0:
-        return 0
-    
-    b.depth = setDepth(b.critical)+1
+    try:
+        if b.ys == 0:
+            return 0
+        
+        b.depth = setDepth(b.critical)+1
+    except AttributeError:
+        print("No base found for block ")
+        b.toString()
+        exit(2)
     return b.depth
 
 def main():

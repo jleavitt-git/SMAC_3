@@ -15,11 +15,16 @@
     ORIENTATION
         add to blocks a type enum (Straight joint, angle joint, scaffolding)(Done!)
         add an orientation attribute (Two letters for direction of joints ex. XX, XY, ZZ, etc.) (Done!)
+            Scratched in favor of orientation (peg) and rotation (N,E,S,W)
         automatically assign it
+        
     SCAFFOLDING
         TBD
 
-    Refactoring and organize
+    REFACTORING AND ORGANIZE
+        TBD
+    
+    OPTIMIZE
         TBD
 
 #USAGE:

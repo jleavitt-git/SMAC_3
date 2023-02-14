@@ -11,15 +11,24 @@ class type(Enum):
 
 class orientation(Enum):
     NONE = -1
-    XX   = 1
-    XY   = 2
-    XZ   = 3
-    YY   = 4
-    YZ   = 5
-    ZZ   = 6
+    ANY = 0
+    X   = 1
+    Y   = 2
+    Z   = 3
+    XN   = 4
+    YN   = 5
+    ZN   = 6
+
+class rotation(Enum):
+    NONE = -1
+    ANY = 0
+    NORTH = 1
+    SOUTH = 2
+    EAST = 3
+    WEST = 4
 
 class Block:
-    def __init__(self, id, xs, ys, zs, critical = None, depth = 0, type=type.NONE, orientation=orientation.NONE):
+    def __init__(self, id, xs, ys, zs, critical = None, depth = 0, type=type.NONE, orientation=orientation.NONE, rotation=rotation.ANY):
         self.id = id
         self.xs = xs
         self.ys = ys
@@ -28,6 +37,7 @@ class Block:
         self.depth = depth
         self.type = type
         self.orientation = orientation
+        self.rotation = rotation
         
     def toString(self):
         print("ID: ", self.id, " X: ", self.xs, " Y: ", self.ys, " Z: ", self.zs)
@@ -84,3 +94,11 @@ def printListOfBlocks(blocks):
         if b.critical is not None:
             crit = b.critical.id
         print("ID: ", b.id, "XYS: [", b.xs, ",", b.ys, ",",b.zs, "] Crit: ", crit, " Depth: ", b.depth)
+
+
+def getBlockFromCoords(blocks, x, y, z):
+    for b in blocks:
+        if b.xs == x and b.ys == y and b.zs == z:
+            return b
+    else:
+        return None
