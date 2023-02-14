@@ -7,19 +7,19 @@ def buildOrientation(blocks, g):
     #Sort by depth, highest first
     blocks = sorted(blocks, key=lambda x: x.depth, reverse=True)
 
-    block.printListOfBlocks(blocks)
+    # block.printListOfBlocks(blocks)
 
-    for b in blocks:
-        neighbors = g.edges(b)
+    # for b in blocks:
+    #     neighbors = g.edges(b)
 
-        nlen = len(neighbors)
+    #     nlen = len(neighbors)
 
-        if nlen < 1:
-            b.type = block.type.SCAFFOLD
-            b.orientation = block.orientation.ANY
-            b.rotation = block.rotation.ANY
-        elif nlen < 2:
-            b.orientation = getDirection(b, neighbors.get(0))
+    #     if nlen < 1:
+    #         b.type = block.type.SCAFFOLD
+    #         b.orientation = block.orientation.ANY
+    #         b.rotation = block.rotation.ANY
+    #     elif nlen < 2:
+    #         b.orientation = getDirection(b, neighbors.get(0))
 
     return blocks
 
@@ -39,3 +39,4 @@ def getDirection(b, n):
         return block.orientation.ZN
     else:
         print("Error: Unknown direction on block, " + b.id)
+    return blocks

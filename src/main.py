@@ -73,13 +73,17 @@ def main():
 
     #blocks = cdfs.initFancyDFS(blocks, g)
 
-    blocks = sorted(blocks, key=lambda b: b.depth if b.depth is not None else 0, reverse=False)
+    # blocks = sorted(blocks, key=lambda b: b.depth if b.depth is not None else 0, reverse=False)
+
+    # block.printListOfBlocks(blocks)
+
+
+    # gv.buildGraph(blocks)
+   
+    #block.printListOfBlocks(blocks)
+    blocks = ob.buildOrientation(blocks)
 
     block.printListOfBlocks(blocks)
-
-
-    gv.buildGraph(blocks)
-
 
     # Plot figure
     plt.interactive(False)
