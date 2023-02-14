@@ -7,10 +7,6 @@ import block
 import filesupport as fs
 import plot
 import orientationBuilder as ob
-import algo
-import orientationDFS as dfs
-import buildRelationalGraph as gv
-import completeDFS as cdfs
 
 #Params
 gridSize = 10

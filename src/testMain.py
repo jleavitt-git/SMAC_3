@@ -54,7 +54,7 @@ def main():
     #Set grid size
     gx, gy, gz = plot.getGridBounds(blocks)
     ax.set_xlim(-1,gx)
-    ax.set_ylim(-1,gy)
+    ax.set_ylim(0,gy)
     ax.set_zlim(-1,gz)
 
     #Add axis labels

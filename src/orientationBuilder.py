@@ -2,7 +2,7 @@ import numpy as np
 import block
 import edgeGraph as eg
 
-def buildOrientation(blocks, g):
+def buildOrientation(blocks):
 
     #Sort by depth, highest first
     blocks = sorted(blocks, key=lambda x: x.depth, reverse=True)
@@ -39,4 +39,3 @@ def getDirection(b, n):
         return block.orientation.ZN
     else:
         print("Error: Unknown direction on block, " + b.id)
-    return blocks

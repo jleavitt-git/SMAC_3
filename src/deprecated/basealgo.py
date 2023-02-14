@@ -1,6 +1,6 @@
-# Python3 program to solve Rat in a Maze
-# problem using backtracking
 
+
+'''DEPRECATED'''
 # Maze size
 n = 4
 

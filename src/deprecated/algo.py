@@ -1,4 +1,10 @@
-import block
+import sys
+
+sys.path.append('../src')
+
+from src import block
+
+'''DEPRECATED IN FAVOR OF bfsDepths'''
 
 # Maze size
 n = 10

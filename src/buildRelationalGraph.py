@@ -4,6 +4,13 @@ import os
 
 os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz/bin/'
 
+'''
+
+Creates relational graph with graphviz
+
+Bit of a pain to set up, you may need to change the os.environ path above
+
+'''
 
 def buildGraph(blocks):
     dot = graphviz.Digraph(engine='circo')

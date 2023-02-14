@@ -1,8 +1,13 @@
-import edgeGraph as eg 
-import block
-import os
-import filesupport as fs
+import sys
 
+sys.path.append('../src')
+
+from src import edgeGraph as eg 
+from src import block
+import os
+from src import filesupport as fs
+
+'''DEPRECATED IN FAVOR OF bfsDepths'''
 
 gridSize = 10
 
