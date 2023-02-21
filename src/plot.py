@@ -4,7 +4,6 @@ from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import edgeGraph as eg
 import block
-import algo
 #Params
 gridSize = 10
 
