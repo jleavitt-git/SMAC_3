@@ -10,8 +10,6 @@ Start on the bottom and work upwards
 for each block, find all blocks with dependant back to that block
 
 If dependants is higher than *Enter weight*, throw error and exit
-
-This essentially just checks depth value
 '''
 
 def testWeight(blocks, graph):

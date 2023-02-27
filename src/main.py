@@ -6,7 +6,7 @@ import edgeGraph as eg
 import block
 import filesupport as fs
 import plot
-import orientationBuilder as ob
+import bfsOrientation as ob
 
 #Params
 gridSize = 10
@@ -77,7 +77,7 @@ def main():
     # gv.buildGraph(blocks)
    
     #block.printListOfBlocks(blocks)
-    blocks = ob.buildOrientation(blocks)
+    blocks = ob.attemptOrientation(g, blocks)
 
     block.printListOfBlocks(blocks)
 
