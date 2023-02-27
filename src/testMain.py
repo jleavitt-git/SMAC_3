@@ -6,7 +6,7 @@ import edgeGraph as eg
 import block
 import filesupport as fs
 import plot
-import orientationBuilder as ob
+import bfsOrientation as ob
 import bfsDepths as bfs
 
 #Params
@@ -37,9 +37,10 @@ def main():
     blocks = bfs.betterDepthBuilder(g, blocks)
    
     #block.printListOfBlocks(blocks)
-    blocks = ob.buildOrientation(blocks)
+    blocks = ob.attemptOrientation(g, blocks)
 
-    block.printListOfBlocks(blocks)
+    #block.printListOfBlocks(blocks)
+    block.printSimpleListOfBlocks(blocks)
 
     # Plot figure
     plt.interactive(False)

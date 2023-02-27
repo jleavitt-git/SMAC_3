@@ -108,3 +108,10 @@ def getBlockFromCoords(blocks, x, y, z):
             return b
     else:
         return None
+
+def getStartingBlocks(blocks):
+    starters = []
+    for b in blocks:
+        if b.ys == 0:
+            starters.append(b)
+    return starters

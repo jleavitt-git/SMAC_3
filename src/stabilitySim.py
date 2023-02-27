@@ -1,3 +1,6 @@
+import block
+import edgeGraph as eg
+
 '''
 Build by depth
 Every time a block is placed, check for overhang.
@@ -11,3 +14,8 @@ On Completion
 
 See where it goes.
  '''
+def getDepth(b):
+    return b.depth
+
+def testStability(blocks, g):
+    blocks = sorted(blocks, key=getDepth)
