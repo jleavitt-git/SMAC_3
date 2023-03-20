@@ -19,13 +19,13 @@ def testWeight(blocks, graph):
     for b in startingBlocks:
         weightReverseDFS(b, blocks, graph)
 
-def weightReverseDFS(b, blocks, g):
+def weightReverseDFS(b, g):
     weight = 0
     for bl in g.edges(b):
         #If a neighbor depends on b, follow the chain
         if bl.critical is not None:
             if bl.critical.id == b.id:
-                weight+=weightReverseDFS(bl, blocks, g)
+                weight+=weightReverseDFS(bl, g)
 
     #If weight it still zero then this block has no dependants and sits by by itself
     if weight == 0:

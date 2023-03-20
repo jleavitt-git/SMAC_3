@@ -1,5 +1,6 @@
 import numpy as np
 from enum import Enum
+from enum import IntEnum
 
 gridSize = 10
 
@@ -9,7 +10,7 @@ class type(Enum):
     STRAIGHT = 1
     ANGLE    = 2
 
-class orientation(Enum):
+class orientation(IntEnum):
     NONE = -1
     ANY = 0
     X   = 1
@@ -28,7 +29,7 @@ class rotation(Enum):
     WEST = 4
 
 class Block:
-    def __init__(self, id, xs, ys, zs, critical = None, depth = 0, type=type.NONE, orientation=orientation.NONE, rotation=rotation.ANY):
+    def __init__(self, id, xs, ys, zs, critical = None, depth = 0, type=type.NONE, orientation=orientation.NONE, rotation=orientation.NONE, strongLink=None, prioritized=False, pathToGround=[]):
         self.id = id
         self.xs = xs
         self.ys = ys
@@ -38,6 +39,9 @@ class Block:
         self.type = type
         self.orientation = orientation
         self.rotation = rotation
+        self.strongLink=strongLink
+        self.prioritized=prioritized
+        self.pathToGround=pathToGround
         
     def toString(self):
         print("ID: ", self.id, " X: ", self.xs, " Y: ", self.ys, " Z: ", self.zs)
@@ -93,7 +97,7 @@ def printListOfBlocks(blocks):
         crit = "None"
         if b.critical is not None:
             crit = b.critical.id
-        print("ID: ", b.id, "XYZ: [", b.xs, ",", b.ys, ",",b.zs, "] Crit:", crit, " Depth:", b.depth, "Orientation:", b.orientation)
+        print("ID: ", b.id, "XYZ: [", b.xs, ",", b.ys, ",",b.zs, "] Crit:", crit, " Depth:", b.depth, "Orientation:", b.orientation, "Rotation:", b.rotation, "StrongLinked?:", b.strongLink)
 
 def printSimpleListOfBlocks(blocks):
     for b in blocks:

@@ -8,6 +8,7 @@ import filesupport as fs
 import plot
 import bfsOrientation as ob
 import bfsDepths as bfs
+import stabilitySim as sm
 
 #Params
 gridSize = 10
@@ -39,8 +40,10 @@ def main():
     #block.printListOfBlocks(blocks)
     blocks = ob.attemptOrientation(g, blocks)
 
-    #block.printListOfBlocks(blocks)
-    block.printSimpleListOfBlocks(blocks)
+    sm.POV2(blocks, g)
+
+    block.printListOfBlocks(blocks)
+    #block.printSimpleListOfBlocks(blocks)
 
     # Plot figure
     plt.interactive(False)

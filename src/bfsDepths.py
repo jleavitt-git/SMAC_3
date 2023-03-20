@@ -38,6 +38,7 @@ def betterDepthBuilder(g, blocks):
     for b in blocks:
         if b.depth == 0 and b.ys != 0:
             path = shortest_path(g, b)
+            b.pathToGround = path
             path.reverse()
             for x in range(len(path)):
 
