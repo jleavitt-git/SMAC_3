@@ -1,6 +1,8 @@
 import numpy as np
 from enum import Enum
 from enum import IntEnum
+import ValidationSupport
+from ValidationSupport import ValidationLog
 
 gridSize = 10
 
@@ -53,17 +55,17 @@ def validateBlocks(blocks, n):
     #First validate each block coordinates individually
     for b in blocks:
         if(b.xs > gridSize or b.xs < 0):
-            print("Param Error for block: ", b.id, "\nX out of bounds [", b.xs, "] expected [0-", gridSize, "]")
+            ValidationSupport.ValidationFailure(b, blocks, ValidationLog.OUT_OF_BOUNDS)
         if(b.ys > gridSize or b.ys < 0):
-            print("Param Error for block: ", b.id, "\nY out of bounds [", b.ys, "] expected [0-", gridSize, "]")
+            ValidationSupport.ValidationFailure(b, blocks, ValidationLog.OUT_OF_BOUNDS)
         if(b.zs > gridSize or b.zs < 0):
-            print("Param Error for block: ", b.id, "\nZ out of bounds [", b.zs, "] expected [0-", gridSize, "]")
+            ValidationSupport.ValidationFailure(b, blocks, ValidationLog.OUT_OF_BOUNDS)
 
     #Then validate no overlap
     for b in blocks:
         for bb in blocks:
             if(b.xs == bb.xs and b.ys == bb.ys and b.zs == bb.zs and b.id != b.id):
-                print("Grid Error: Block [", b.id, "] has the same coordinates as Block [",bb.id,"]")
+                ValidationSupport.ValidationFailure(b, blocks, ValidationLog.OVERLAP, overlap=bb)
     
 
 def arrayOfBlocks(blocks):

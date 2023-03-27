@@ -31,6 +31,7 @@ def attemptOrientation(g, blocks):
             b.orientation = block.orientation.YN
         if b.ys > 0:
             b.orientation = getDirection(b, b.critical)
+            # print(f"block {b.id} is at orientation {b.orientation}")
 
     return blocks
 
@@ -51,15 +52,3 @@ def getDirection(b, n):
         return block.orientation.Z
     else:
         print("Error: Unknown direction on block, " + b.id)
-
-def getRotation(b, n):
-    #This will take a little to implement
-
-    '''
-    Options:
-        1. Use depth to determine who gets priority
-        2. Use y val (issues with hangs)
-        3. Sort list so that the important blocks come first (Ex. horizontal before vertical)
-    '''
-
-    return block.orientation.ANY

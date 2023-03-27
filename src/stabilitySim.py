@@ -1,6 +1,7 @@
 import block
 import edgeGraph as eg
 import weightSim as ws
+from ValidationSupport import ValidationFailure, ValidationLog
 '''
 Build by depth
 Every time a block is placed, check for overhang.
@@ -17,105 +18,105 @@ See where it goes.
 
 OVERHANG = 3
 
-def testStability(blocks, g):
-    blocks = sortByDepth(blocks)
+# def testStability(blocks, g):
+#     blocks = sortByDepth(blocks)
 
-    for b in blocks:
-        if b.ys == 0:
-            #Ground, always dowwards pin
-            b.orientation = block.orientation.YN
-        neighbors = g.edges(b)
-        for n in neighbors:
-            #There is block below
-            if n.ys == b.ys-1:
-                #Check if pillar, else hanging block
-                if not isPillar(n):
-                    #Check surroundings for priority else strong link hanging block
-                    nothing = 1
-            #Break once b has orientation and face
+#     for b in blocks:
+#         if b.ys == 0:
+#             #Ground, always dowwards pin
+#             b.orientation = block.orientation.YN
+#         neighbors = g.edges(b)
+#         for n in neighbors:
+#             #There is block below
+#             if n.ys == b.ys-1:
+#                 #Check if pillar, else hanging block
+#                 if not isPillar(n):
+#                     #Check surroundings for priority else strong link hanging block
+#                     nothing = 1
+#             #Break once b has orientation and face
                 
-def prioritzeOrientation(blocks, g):
-    blocks = sortByDepth(blocks)
+# def prioritzeOrientation(blocks, g):
+#     blocks = sortByDepth(blocks)
 
-    #Strong link is set to True when it's pin is set into a block
+#     #Strong link is set to True when it's pin is set into a block
 
-    for b in blocks:
-        if b.ys == 0:
-            #Floor, no logic here needed
-            print("Floor", b.id)
-            b.rotation = block.orientation.Y
-            b.strongLink = True
-            continue
-        if b.strongLink is not None:
-            print("repeat loop", b.id, "Strong", b.strongLink)
-            #Block has already been weak Linked, leave it
-            continue
-        neighbors = g.edges(b)
-        numDependants = 0
-        for n in neighbors:
-            if n.critical == b:
-                #find number of dependants
-                numDependants+=1
-        if numDependants == 0:
-            #No dependants, check for overhang / bridge
-            # b.rotation = block.orientation.ANY
-            dir = getOppositeOrientation(b)
-        elif numDependants == 1:
-            for n in neighbors:
-                if n.critical is not None:
-                    if n.critical == b:
-                        print("one dependant", b.id)
-                        #Set rotation of single dependant
-                        # rot = getRotation(b, n)
-                        # for f in blocks:
-                        #     if f.id == n.id:
-                        #         f.rotation = rot
-                        setRotation(b, n)
-                        b.strongLink = True
-        else:
-            #Find weight of each dependant, link to highest
-            highID = getHeaviestBlock(b, g)
-            needWeak = True
-            if highID == "":
-                print("Error...")
-                exit(1)
-            for f in blocks:
-                if f.id == highID:
-                    setRotation(f, n)
-                    f.strongLink = True
-                    needWeak = False
-                    break
-            if needWeak:
-                for f in blocks:
-                    if f.id == highID:
-                        #Block must be weak linked
-                        weight = ws.weightReverseDFS(f, g)
-                        if weight > 1:
-                            print(f"Error: Weak link block ID:[{f.id}] is overweight limitations, exiting...")
-                            exit(1)
-                        else:
-                            #print("Not too heavy", b.id)
-                            f.strongLink = False
-                            f.orientation = block.orientation.ANY
-                            f.rotation = block.orientation.ANY
-        #Now check overhang and weight
-        overhang = 0
-        b.pathToGround.reverse()
-        for p in b.pathToGround:
-           if p.id == b.id:
-               continue
-           if not isPillar(g, p):
-               overhang+=1
-           else:
-               #print(f"Overhang for {b.id} is {overhang}")
-               break
-        if overhang > OVERHANG:
-            print("Error: Overhang over 4 blocks detected for block:", b.id)
-            string = "Block path"
-            for l in b.pathToGround:
-                string+= f" | {l.id}"
-            print(string)
-            exit(1)
+#     for b in blocks:
+#         if b.ys == 0:
+#             #Floor, no logic here needed
+#             print("Floor", b.id)
+#             b.rotation = block.orientation.Y
+#             b.strongLink = True
+#             continue
+#         if b.strongLink is not None:
+#             print("repeat loop", b.id, "Strong", b.strongLink)
+#             #Block has already been weak Linked, leave it
+#             continue
+#         neighbors = g.edges(b)
+#         numDependants = 0
+#         for n in neighbors:
+#             if n.critical == b:
+#                 #find number of dependants
+#                 numDependants+=1
+#         if numDependants == 0:
+#             #No dependants, check for overhang / bridge
+#             # b.rotation = block.orientation.ANY
+#             dir = getOppositeOrientation(b)
+#         elif numDependants == 1:
+#             for n in neighbors:
+#                 if n.critical is not None:
+#                     if n.critical == b:
+#                         print("one dependant", b.id)
+#                         #Set rotation of single dependant
+#                         # rot = getRotation(b, n)
+#                         # for f in blocks:
+#                         #     if f.id == n.id:
+#                         #         f.rotation = rot
+#                         setRotation(b, n)
+#                         b.strongLink = True
+#         else:
+#             #Find weight of each dependant, link to highest
+#             highID = getHeaviestBlock(b, g)
+#             needWeak = True
+#             if highID == "":
+#                 print("Error...")
+#                 exit(1)
+#             for f in blocks:
+#                 if f.id == highID:
+#                     setRotation(f, n)
+#                     f.strongLink = True
+#                     needWeak = False
+#                     break
+#             if needWeak:
+#                 for f in blocks:
+#                     if f.id == highID:
+#                         #Block must be weak linked
+#                         weight = ws.weightReverseDFS(f, g)
+#                         if weight > 1:
+#                             print(f"Error: Weak link block ID:[{f.id}] is overweight limitations, exiting...")
+#                             exit(1)
+#                         else:
+#                             #print("Not too heavy", b.id)
+#                             f.strongLink = False
+#                             f.orientation = block.orientation.ANY
+#                             f.rotation = block.orientation.ANY
+#         #Now check overhang and weight
+#         overhang = 0
+#         b.pathToGround.reverse()
+#         for p in b.pathToGround:
+#            if p.id == b.id:
+#                continue
+#            if not isPillar(g, p):
+#                overhang+=1
+#            else:
+#                #print(f"Overhang for {b.id} is {overhang}")
+#                break
+#         if overhang > OVERHANG:
+#             print("Error: Overhang over 4 blocks detected for block:", b.id)
+#             string = "Block path"
+#             for l in b.pathToGround:
+#                 string+= f" | {l.id}"
+#             print(string)
+#             exit(1)
         
 
 '''
@@ -155,7 +156,7 @@ def POV2(blocks, g):
             if len(neighbors) == 2 and b.rotation == block.orientation.ANY:
                 for n in neighbors:
                     if n != b.critical:
-                        print(f"Block {b.id} rotating to {n.id}")
+                        # print(f"Block {b.id} rotating to {n.id}")
                         setRotation(b, n)
         elif bClass == 3:
             #Corner Logic
@@ -171,23 +172,25 @@ def POV2(blocks, g):
                 b.strongLink = True
             elif dependants > 1:
                 #Pick heaviest block and strong link to it
-                heav = getHeaviestBlock(b, g)
+                heav = getHeaviestBlock(b, blocks, g)
                 if heav == "":
-                    print(f"Error: No dependants found for {b.id} for heaviest block choice")
+                    print(f"Code Error: No dependants found for {b.id} for heaviest block choice")
                     exit(1)
                 else:
                     deps = getDependants(b, g)
                     for f in blocks:
-                        if b.id == heav:
+                        if f.id == heav:
                             setRotation(b, f)
                             b.strongLink = True
                         else:
                             for d in deps:
                                 if f.id == d.id:
-                                    weight = ws.weightReverseDFS(d, g)
+                                    weight = ws.weightReverseDFS(d, blocks, g)
                                     if weight > 1:
-                                        print(f"Error: Weak link block {f.id} is too heavy")
-                                        exit(1)
+                                        deps = getDependants(f, g)
+                                        deps = deps + f.pathToGround
+                                        f.pathToGround = deps
+                                        ValidationFailure(f, blocks, ValidationLog.WEAK_LINK_FAIL)
                                     else:
                                         #print("Not too heavy", f.id)
                                         f.strongLink = False
@@ -201,11 +204,14 @@ def POV2(blocks, g):
         elif bClass == 4:
             #Overhang Logic
             deps = getDependants(b, g)
-            if len(deps) == 0:
+            if b.strongLink == False:
+                #Already been weak linked
+                pass
+            elif len(deps) == 0 and b.critical.rotation == getOppositeOrientation(b, blocks):
                 b.rotation = block.orientation.ANY
                 b.strongLink = True
             #If dependant is corner and not rotated towards it, weak link it
-            elif b.critical.rotation != getOppositeOrientation(b):
+            elif b.critical.rotation != getOppositeOrientation(b, blocks):
                 b.rotation = block.orientation.ANY
                 b.strongLink = False
                 continue
@@ -215,7 +221,7 @@ def POV2(blocks, g):
                     b.strongLink = True
 
                 else:
-                    pBlock = findPriorityBlock(b, g)
+                    pBlock = findPriorityBlock(b, blocks, g)
                     for f in blocks:
                         if f.id == pBlock.id:
                             setRotation(b, f)
@@ -232,8 +238,7 @@ def POV2(blocks, g):
 
             dist = distFromPillar(b, g)
             if dist > OVERHANG:
-                print("Error: Block {b.id} causes a overhang over the max limit.")
-                exit(1)
+                ValidationFailure(b, blocks, ValidationLog.OVERHANG_FAIL, overhang=OVERHANG)
         elif bClass == 5:
             #Hanging Logic
 
@@ -258,15 +263,16 @@ def POV2(blocks, g):
                         b.rotation = block.orientation.ANY
                         b.strongLink == True
                         continue
-            pBlock = findPriorityBlock(b, g)
+            pBlock = findPriorityBlock(b, blocks, g)
             if pBlock is None:
                 #No dependants, vibe
                 b.rotation = block.orientation.ANY
                 b.strongLink = True
-            for n in g.edges(b):
-                if n.id == pBlock.id:
-                    setRotation(b, n)
-                    b.strongLink = True
+            else:
+                for n in g.edges(b):
+                    if n.id == pBlock.id:
+                        setRotation(b, n)
+                        b.strongLink = True
 
             #If block below is overhang and has adjacent dependants, try to strong link upwards, else sideways
 
@@ -300,7 +306,7 @@ def classifyBlock(b, g):
         for n in g.edges(b):
             #see if adjacent blocks are dependant
             if n.critical is not None:
-                if n.critical == b:
+                if n.critical == b and n.ys == b.ys:
                     #Contains adjacent block that is dependant on this one, so must be corner
                     return 3
         #No adjacent dependant blocks, so just a pillar
@@ -388,15 +394,16 @@ def setRotation(b, n):
     elif b.zs == n.zs-1:
         b.rotation = block.orientation.Z
 
-def getOppositeOrientation(b):
+def getOppositeOrientation(b, blocks):
+    print(f"{b.id} : {b.orientation}")
     if(b.orientation > 0):
         return block.orientation((int(b.orientation) + 3)%6)
     else:
         #This should not hit because the bfs orientation is run first
         print(f"Error, no orientation found for {b.id}")
-        exit(1)
+        ValidationFailure(b, blocks, ValidationLog.DEBUG)
 
-def getHeaviestBlock(b, g):
+def getHeaviestBlock(b, blocks, g):
     dependants = []
     maxWeight = -1
     heaviestID = ""
@@ -406,10 +413,11 @@ def getHeaviestBlock(b, g):
             if n.critical == b:
                 dependants.append(n)
     for d in dependants:
-        weight = ws.weightReverseDFS(d, g)
+        weight = ws.weightReverseDFS(d, blocks, g)
         if weight > maxWeight:
             maxWeight = weight
             heaviestID = d.id
+    print(f"Returning heavy {heaviestID}")
     return heaviestID
 
 def getDependants(b, g):
@@ -431,7 +439,7 @@ def distFromPillar(b, g):
     print(f"Error: No pillar found for block {b.id}")
     exit(1)
 
-def findPriorityBlock(b, g):
+def findPriorityBlock(b, blocks, g):
     #Find block that needs strong joint the most:
         #Heaviest horizontal dependant first
         #Then up if exists, otherwise down if exists
@@ -458,7 +466,7 @@ def findPriorityBlock(b, g):
                 #prioritize overhang block
                 if classifyBlock(h, g) == 4:
                     return h
-            heav = getHeaviestBlock(b, h)
+            heav = getHeaviestBlock(b, blocks, h)
             for f in g.edges(b):
                 if f.id == heav:
                     return f

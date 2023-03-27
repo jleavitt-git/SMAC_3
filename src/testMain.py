@@ -9,6 +9,8 @@ import plot
 import bfsOrientation as ob
 import bfsDepths as bfs
 import stabilitySim as sm
+import ValidationSupport
+from ValidationSupport import ValidationLog
 
 #Params
 gridSize = 10
@@ -29,16 +31,22 @@ def main():
     g = eg.buildGraph(blocks)
 
     #Validate no floating blocks
+    floatingBlocks = []
     for b in blocks:
         neighbors = g.edges(b)
         if len(neighbors) == 0 and b.ys != 0:
-            print("Structure Error: ", b.id, " is floating")
+            floatingBlocks.append(b)
 
     
     blocks = bfs.betterDepthBuilder(g, blocks)
+
+    if len(floatingBlocks) > 0:
+        ValidationSupport.ValidationFailure(floatingBlocks[0], blocks, ValidationLog.FLOATING_BLOCK_ERROR)
    
     #block.printListOfBlocks(blocks)
     blocks = ob.attemptOrientation(g, blocks)
+
+    block.printListOfBlocks(blocks)
 
     sm.POV2(blocks, g)
 
