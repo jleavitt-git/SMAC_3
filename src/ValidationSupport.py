@@ -68,33 +68,7 @@ def ValidationFailure(b, allBlocks, type, overlap=None, weight=None, overhang=No
     if len(blocks) < 1:
         blocks = allBlocks
 
-    block.printListOfBlocks(blocks)
-    #block.printSimpleListOfBlocks(blocks)
+    plot.showValidationPlot(blocks, b)
 
-    # Plot figure
-    plt.interactive(False)
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-
-    #Plot data
-    ax.scatter3D(eg.axisDataNA(blocks, 1), eg.axisDataNA(blocks, 2), eg.axisDataNA(blocks, 3), marker="s", s=700)
-    
-    for b in blocks:
-        ax.text(b.xs,b.ys,b.zs,b.id, fontsize=6)
-    #Set grid size
-    gx, gy, gz = plot.getGridBounds(blocks)
-    ax.set_xlim(-1,gx)
-    ax.set_ylim(0,gy)
-    ax.set_zlim(-1,gz)
-
-    #Add axis labels
-    ax.set_xlabel("X")
-
-    ax.set_ylabel("Y")
-
-    ax.set_zlabel("Z")
-
-    ax.view_init(100, 0)
-    plt.show()
-
+    print("Please update your structure according to the block failure.")
     exit(1)

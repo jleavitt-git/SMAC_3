@@ -137,5 +137,69 @@ def printBlocks(blocks):
     for b in blocks:
         print("ID: ", b.id, " X: ", b.xs, " Y: ", b.ys, " Z: ", b.zs)
 
+def showValidationPlot(blocks, b):
+
+    block.printListOfBlocks(blocks)
+        # Plot figure
+    plt.interactive(False)
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    for f in blocks:
+        if f.id == b.id:
+            blocks.remove(f)
+    #Plot data
+    ax.scatter3D(eg.axisDataNA(blocks, 1), eg.axisDataNA(blocks, 2), eg.axisDataNA(blocks, 3), marker="s", s=700, alpha=0.4)
+    ax.scatter3D(eg.axisDataNA([b], 1),eg.axisDataNA([b], 2),eg.axisDataNA([b], 3), marker="s", s=700, c="lightcoral", edgecolor="r", alpha=1)
+    for f in blocks:
+        ax.text(f.xs,f.ys,f.zs,f.id, fontsize=6)
+    ax.text(b.xs,b.ys,b.zs,b.id, fontsize=10, c="r")
+    #Set grid size
+    gx, gy, gz = getGridBounds(blocks)
+    ax.set_xlim(-1,gx)
+    ax.set_ylim(0,gy)
+    ax.set_zlim(-1,gz)
+
+    #Add axis labels
+    ax.set_xlabel("X")
+
+    ax.set_ylabel("Y")
+
+    ax.set_zlabel("Z")
+
+    ax.view_init(100, 0)
+    plt.show()
+
+def showFinalPlot(blocks):
+
+    block.printListOfBlocks(blocks)
+    #block.printSimpleListOfBlocks(blocks)
+
+    # Plot figure
+    plt.interactive(False)
+    fig = plt.figure()
+    
+    ax = plt.axes(projection='3d')
+
+    grid = np.zeros((gridSize, gridSize, gridSize), dtype='bool')
+
+    grid = block.populateGrid(grid, blocks)
+
+    ax.voxels(grid, facecolor = "#E02050", edgecolors = 'k')
+    
+    ax.set_xlim(0,gridSize)
+    ax.set_ylim(0,gridSize)
+    ax.set_zlim(0,gridSize)
+
+    #Add axis labels
+    ax.set_xlabel("X")
+
+    ax.set_ylabel("Y")
+
+    ax.set_zlabel("Z")
+
+    ax.view_init(100, 0)
+    plt.show()
+
 if __name__ == "__main__":
     main()

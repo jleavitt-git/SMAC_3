@@ -142,22 +142,26 @@ def POV2(blocks, g):
             b.strongLink = True
         elif bClass == 2:
             #Pillar Logic
+            midPillar = False
             for n in g.edges(b):
                 if n.ys == b.ys+1:
                     #Has block above
                     b.rotation = block.orientation.Y
-            #No block above, set to any
-            b.rotation = block.orientation.ANY
-            b.strongLink = True
-            
-            neighbors = g.edges(b)
+                    b.strongLink = True
+                    midPillar = True
+            if not midPillar:
+                #No block above, set to any
+                b.rotation = block.orientation.ANY
+                b.strongLink = True
+                
+                neighbors = g.edges(b)
 
 
-            if len(neighbors) == 2 and b.rotation == block.orientation.ANY:
-                for n in neighbors:
-                    if n != b.critical:
-                        # print(f"Block {b.id} rotating to {n.id}")
-                        setRotation(b, n)
+                if len(neighbors) == 2 and b.rotation == block.orientation.ANY:
+                    for n in neighbors:
+                        if n != b.critical:
+                            # print(f"Block {b.id} rotating to {n.id}")
+                            setRotation(b, n)
         elif bClass == 3:
             #Corner Logic
             dependants = 0
@@ -247,8 +251,7 @@ def POV2(blocks, g):
             #Write method to find distance from pillar, more than 2 means impossible to build
             dist = distFromPillar(b, g)
             if dist > 2:
-                print("Error: Distance from pillar for block {b.id} is too large, cannot be placed")
-                exit(1)
+                ValidationFailure(b, blocks, ValidationLog.IMPOSSIBLE_TO_PLACE)
             else:
                 b.orientation = block.orientation.ANY
                 b.rotation = block.rotation.ANY
@@ -286,8 +289,8 @@ def POV2(blocks, g):
             for f in blocks:
                 if f.critical is not None:
                     if f.critical is b:
-                        print(f"Error: Weak Link block {b.id} has dependants that can't be supported.")
-                        exit(1)
+                        print(f"Error: Weak Link block {b.id} has dependants that can't be supported. {f.id}")
+                        ValidationFailure(b, blocks, ValidationLog.DEBUG)
 
 '''
 Floor: 1

@@ -121,3 +121,8 @@ def getStartingBlocks(blocks):
         if b.ys == 0:
             starters.append(b)
     return starters
+
+def populateGrid(grid, blocks):
+    for b in blocks:
+        grid[b.xs][b.ys][b.zs] = 1
+    return grid
