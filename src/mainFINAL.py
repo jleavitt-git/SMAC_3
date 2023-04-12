@@ -44,11 +44,13 @@ def main():
     if len(floatingBlocks) > 0:
         ValidationSupport.ValidationFailure(floatingBlocks[0], blocks, ValidationLog.FLOATING_BLOCK_ERROR)
    
-    #block.printListOfBlocks(blocks)
+    #Create baseline orientation guesses
     blocks = ob.attemptOrientation(g, blocks)
 
+    #Complete orientation builder
     sm.POV2(blocks, g)
 
+    #Only reach here if no validation was thrown
     plot.showFinalPlot(blocks)
     #plot.showValidationPlot(blocks)
 

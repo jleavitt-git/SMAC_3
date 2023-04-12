@@ -171,7 +171,7 @@ def POV2(blocks, g):
                         dependants+=1
             if dependants == 1:
                 #Only one dependant, link
-                print("one dependant", b.id)
+                # print("one dependant", b.id)
                 setRotation(b, n)
                 b.strongLink = True
             elif dependants > 1:
@@ -241,6 +241,7 @@ def POV2(blocks, g):
                         setRotation(b, n)
 
             dist = distFromPillar(b, g)
+            # print(f"Dist for {b.id} is {dist}")
             if dist > OVERHANG:
                 ValidationFailure(b, blocks, ValidationLog.OVERHANG_FAIL, overhang=OVERHANG)
         elif bClass == 5:
@@ -420,7 +421,7 @@ def getHeaviestBlock(b, blocks, g):
         if weight > maxWeight:
             maxWeight = weight
             heaviestID = d.id
-    print(f"Returning heavy {heaviestID}")
+    # print(f"Returning heavy {heaviestID}")
     return heaviestID
 
 def getDependants(b, g):
@@ -438,8 +439,8 @@ def distFromPillar(b, g):
         if isPillar(g, p):
             xDiff = abs(b.xs - p.ys)
             yDiff = abs(b.ys - p.ys)
-            return min(xDiff, yDiff)
-    print(f"Error: No pillar found for block {b.id}")
+            return max(xDiff, yDiff)
+    print(f"Code Error: No pillar found for block {b.id} but floating block validation passed")
     exit(1)
 
 def findPriorityBlock(b, blocks, g):
