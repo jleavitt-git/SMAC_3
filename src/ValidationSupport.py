@@ -64,11 +64,16 @@ def ValidationFailure(b, allBlocks, type, overlap=None, weight=None, overhang=No
         print("Validation: Invalid type")
         exit(1)
 
-    blocks = b.pathToGround
-    if len(blocks) < 1:
-        blocks = allBlocks
-
-    plot.showValidationPlot(blocks, b)
+    blocks = sorted(allBlocks, key=lambda e: (e.depth, e.id == b.id))
+    gx,gy,gz = plot.getGridBounds(blocks)
+    shown = []
+    block.printListOfBlocks(blocks)
+    for f in blocks:
+        shown.append(f)
+        showError = b in shown
+        # print(f"Shown? {showError}")
+        plot.showValidationPlot(shown.copy(), b, showError, gy=gy)
+    # plot.showValidationPlot(blocks, b)
 
     print("Please update your structure according to the block failure.")
     exit(1)

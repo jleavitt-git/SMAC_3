@@ -137,9 +137,8 @@ def printBlocks(blocks):
     for b in blocks:
         print("ID: ", b.id, " X: ", b.xs, " Y: ", b.ys, " Z: ", b.zs)
 
-def showValidationPlot(blocks, b):
+def showValidationPlot(blocks, b, showError=True, gy=0):
 
-    block.printListOfBlocks(blocks)
         # Plot figure
     plt.interactive(False)
     fig = plt.figure()
@@ -150,15 +149,21 @@ def showValidationPlot(blocks, b):
             blocks.remove(f)
     #Plot data
     ax.scatter3D(eg.axisDataNA(blocks, 1), eg.axisDataNA(blocks, 2), eg.axisDataNA(blocks, 3), marker="s", s=700, alpha=0.4)
-    ax.scatter3D(eg.axisDataNA([b], 1),eg.axisDataNA([b], 2),eg.axisDataNA([b], 3), marker="s", s=700, c="lightcoral", edgecolor="r", alpha=1)
+    if showError:
+        ax.scatter3D(eg.axisDataNA([b], 1),eg.axisDataNA([b], 2),eg.axisDataNA([b], 3), marker="s", s=700, c="lightcoral", edgecolor="r", alpha=1)
     for f in blocks:
         ax.text(f.xs,f.ys,f.zs,f.id, fontsize=6)
-    ax.text(b.xs,b.ys,b.zs,b.id, fontsize=10, c="r")
+    if showError:
+        ax.text(b.xs,b.ys,b.zs,b.id, fontsize=10, c="r")
     #Set grid size
-    gx, gy, gz = getGridBounds(blocks)
-    ax.set_xlim(-1,gx)
-    ax.set_ylim(0,gy)
-    ax.set_zlim(-1,gz)
+    # gx, gy, gz = getGridBounds(blocks)
+    if gy % 2 == 1:
+        gy+=1
+
+    
+    ax.set_xlim(-1,8)
+    ax.set_ylim(-1,8)
+    ax.set_zlim(-1,8)
 
     #Add axis labels
     ax.set_xlabel("X")

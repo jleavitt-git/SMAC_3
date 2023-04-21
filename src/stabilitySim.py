@@ -134,10 +134,10 @@ def POV2(blocks, g):
 
     for b in blocks:
         bClass = classifyBlock(b, g)
-        print(f"Block {b.id} is class {bClass}")
+        # print(f"Block {b.id} is class {bClass}")
         if bClass == 1:
             #Floor logic
-            print("Floor", b.id)
+            # print("Floor", b.id)
             b.rotation = block.orientation.Y
             b.strongLink = True
         elif bClass == 2:
@@ -164,17 +164,19 @@ def POV2(blocks, g):
                             setRotation(b, n)
         elif bClass == 3:
             #Corner Logic
-            dependants = 0
+            dependants = []
             for n in g.edges(b):
                 if n.critical is not None:
                     if n.critical == b:
-                        dependants+=1
-            if dependants == 1:
+                        dependants.append(n)
+            if len(dependants) == 1:
+                # print(f"Hit for block {b.id}, {dependants[0].id}")
                 #Only one dependant, link
                 # print("one dependant", b.id)
-                setRotation(b, n)
+                setRotation(b, dependants[0])
+                # print(f"block rot {b.id}: {b.orientation} : {b.rotation}")
                 b.strongLink = True
-            elif dependants > 1:
+            elif len(dependants) > 1:
                 #Pick heaviest block and strong link to it
                 heav = getHeaviestBlock(b, blocks, g)
                 if heav == "":
@@ -221,6 +223,7 @@ def POV2(blocks, g):
                 continue
             else:
                 if len(deps) == 1:
+                    # print(f"Hit for block {b.id}")
                     setRotation(b,deps[0])
                     b.strongLink = True
 
@@ -241,6 +244,7 @@ def POV2(blocks, g):
                         setRotation(b, n)
 
             dist = distFromPillar(b, g)
+            # print(f"distFrom Pill for block {b.id} : {dist}")
             # print(f"Dist for {b.id} is {dist}")
             if dist > OVERHANG:
                 ValidationFailure(b, blocks, ValidationLog.OVERHANG_FAIL, overhang=OVERHANG)
@@ -434,12 +438,15 @@ def getDependants(b, g):
 
 def distFromPillar(b, g):
     ptg = b.pathToGround
+    # print(f"block to ground {b.id} : {b.pathToGround}")
     ptg.reverse()
     for p in ptg:
         if isPillar(g, p):
-            xDiff = abs(b.xs - p.ys)
+            xDiff = abs(b.xs - p.xs)
             yDiff = abs(b.ys - p.ys)
-            return max(xDiff, yDiff)
+            zDiff = abs(b.zs - p.zs)
+            # print(f"block {b.id} checking dist for {p.id} X: {xDiff} Y {yDiff} Z {zDiff}")
+            return xDiff+yDiff+zDiff
     print(f"Code Error: No pillar found for block {b.id} but floating block validation passed")
     exit(1)
 

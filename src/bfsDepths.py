@@ -36,8 +36,9 @@ def shortest_path(g, node1):
 
 def betterDepthBuilder(g, blocks):
     for b in blocks:
-        if b.depth == 0 and b.ys != 0:
+        if b.ys != 0:
             path = shortest_path(g, b)
+            print(f"BLOBKLKSD  {b.id}: {path}")
             b.pathToGround = path
             path.reverse()
             for x in range(len(path)):
