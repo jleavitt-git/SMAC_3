@@ -1,31 +1,12 @@
-#TODO 
-    
-    
-    BOILER PLATE
-    Tansform block coords to maze coords (Done!)
-    Specify start and end point for algo (Done!)
-    Link sim and algo (file) (Done!)
+Copyright Jacob Leavitt 2023
 
+Usage:
 
-    PHSYICS
-        Dependency graph (Done!)
-        Build order (Done!)
-        Ensure structure can be built (no overhangs over 2 blocks)
-            Stability dictionary / param of block (0.0-1.0, critical at .5?)
-    ORIENTATION
-        add to blocks a type enum (Straight joint, angle joint, scaffolding)(Done!)
-        add an orientation attribute (Two letters for direction of joints ex. XX, XY, ZZ, etc.) (Done!)
-            Scratched in favor of orientation (peg) and rotation (N,E,S,W)
-        automatically assign it
-        
-    SCAFFOLDING
-        TBD
+    install packages
+        numpy
+        ursina
+        matplotlib
+        others as needed
 
-    REFACTORING AND ORGANIZE
-        TBD
-    
-    OPTIMIZE
-        TBD
-
-#USAGE:
-run main.py, press ESC to exit simulation
+    mainFINAL.py is the most up to date main file. 
+        run mainFINAL.py
