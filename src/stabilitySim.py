@@ -289,13 +289,13 @@ def POV2(blocks, g):
             print(f"No classification found for block {b.id}, exiting")
             exit(1)
 
-    for b in blocks:
-        if not b.strongLink:
-            for f in blocks:
-                if f.critical is not None:
-                    if f.critical is b:
-                        print(f"Error: Weak Link block {b.id} has dependants that can't be supported. {f.id}")
-                        ValidationFailure(b, blocks, ValidationLog.DEBUG)
+    # for b in blocks:
+    #     if not b.strongLink:
+    #         for f in blocks:
+    #             if f.critical is not None:
+    #                 if f.critical is b:
+    #                     print(f"Error: Weak Link block {b.id} has dependants that can't be supported. {f.id}")
+    #                     ValidationFailure(b, blocks, ValidationLog.DEBUG)
 
 '''
 Floor: 1

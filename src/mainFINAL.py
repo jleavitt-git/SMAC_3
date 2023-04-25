@@ -12,6 +12,7 @@ import bfsDepths as bfs
 import stabilitySim as sm
 import ValidationSupport
 from ValidationSupport import ValidationLog
+import blueprintExporter as be
 
 #Params
 gridSize = 10
@@ -53,6 +54,7 @@ def main():
     #Only reach here if no validation was thrown
     plot.showFinalPlot(blocks)
     #plot.showValidationPlot(blocks)
+    be.exportBlocks(blocks, g)
 
 
 if __name__ == "__main__":
