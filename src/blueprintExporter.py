@@ -19,8 +19,8 @@ def exportBlocks(blocks, g):
                     break
                 count+=1
             if count < len(blocks)-1:
-                string+="["+str(blocks[count+1].xs)+","+str(blocks[count+1].ys)+","+str(blocks[count+1].zs)+"]:"
-            string+="["
+                string+="["+str(blocks[count+1].xs)+","+str(blocks[count+1].ys)+","+str(blocks[count+1].zs)+"]"
+            string+=":["
             for n in range(len(neighbors)):
                 string+="["+str(neighbors[n].xs)+","+str(neighbors[n].ys)+","+str(neighbors[n].zs)+"]"
                 if n != len(neighbors)-1:

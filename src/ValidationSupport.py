@@ -68,12 +68,12 @@ def ValidationFailure(b, allBlocks, type, overlap=None, weight=None, overhang=No
     gx,gy,gz = plot.getGridBounds(blocks)
     shown = []
     block.printListOfBlocks(blocks)
-    for f in blocks:
-        shown.append(f)
-        showError = b in shown
-        # print(f"Shown? {showError}")
-        plot.showValidationPlot(shown.copy(), b, showError, gy=gy)
-    # plot.showValidationPlot(blocks, b)
+    # for f in blocks:
+    #     shown.append(f)
+    #     showError = b in shown
+    #     # print(f"Shown? {showError}")
+    #     plot.showValidationPlot(shown.copy(), b, showError, gy=gy)
+    plot.showValidationPlot(blocks, b)
 
     print("Please update your structure according to the block failure.")
     exit(1)
